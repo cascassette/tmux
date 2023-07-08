@@ -194,14 +194,12 @@ main() {
     local show_directory_in_window_status_current
     readonly show_directory_in_window_status_current=" #I #[fg=$thm_iris,bg=$thm_bg] #{b:pane_current_path}"
 
-
     # Left column placement: Determined by the set status-left on line 236
-
 
     #Right columns organization:
 
     # Right column 1 shows, by default, the username
-    local right_column1=$show_user
+    local right_column1
 
     # Right column 2 shows, by default, the current directory you're working on
     local right_column2=$spacer$show_directory
@@ -225,13 +223,13 @@ main() {
         right_column1=$right_column1$show_date_time
     fi
 
-    # if [[ "$user" == "on" ]]; then
-    #     right_column1=$right_column1$show_user
-    # fi
-    #
-    # if [[ "$directory" == "on" ]]; then
-    #     right_column1=$right_column1$show_directory
-    # fi
+    if [[ "$user" == "on" ]]; then
+        right_column1=$right_column1$show_user
+    fi
+    
+    if [[ "$directory" == "on" ]]; then
+        right_column1=$right_column1$show_directory
+    fi
 
     set status-left "$show_session$show_window"
 
