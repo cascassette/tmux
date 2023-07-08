@@ -107,8 +107,8 @@ main() {
     set status-right-length "100"
 
     # Theoretically messages (need to figure out color placement) 
-    set message-style "fg=$thm_muted,bg=$thm_base,align=centre"
-    set message-command-style "fg=$thm_base,bg=$thm_gold,align=centre"
+    set message-style "fg=$thm_text,bg=$thm_base,align=centre"
+    set message-command-style "fg=$thm_text,bg=$thm_surface,align=centre"
 
     # Pane styling
     set pane-border-style "fg=$thm_hl_high"
@@ -117,10 +117,11 @@ main() {
     set display-panes-colour "${thm_gold}"
 
     # Windows
-    setw window-status-separator "  "
-    setw window-status-style "fg=${thm_iris},bg=${thm_base}"
-    setw window-status-activity-style "fg=${thm_base},bg=${thm_rose}"
-    setw window-status-current-style "fg=${thm_gold},bg=${thm_base}"
+    #setw window-status-separator "  "
+    setw window-status-separator " "
+    #setw window-status-style "fg=${thm_foam},bg=${thm_hl_med}"
+    #setw window-status-activity-style "fg=${thm_base},bg=${thm_rose}"
+    #setw window-status-current-style "fg=${thm_base},bg=${thm_gold}"
 
     # Statusline base command configuration: No need to touch anything here
     # Placement is handled below
@@ -163,14 +164,10 @@ main() {
 
     # These variables are the defaults so that the setw and set calls are easier to parse
 
-    local window
-    readonly window=" #[fg=$thm_subtle] #[fg=$thm_rose]#W$spacer"
-
     local window_in_window_status
-    readonly window_in_window_status="#[fg=$thm_bg,bg=$thm_foam] #I#[fg=$thm_foam,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_bg]#W"
-
-    local show_window_in_window_status_current
-    readonly show_window_in_window_status_current="#[fg=$thm_fg] #W #[fg=$thm_bg] #I#[fg=$thm_orange,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics] "
+    #readonly window_in_window_status="#[fg=$thm_bg,bg=$thm_foam] #I#[fg=$thm_foam,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_bg]#W "
+    readonly window_in_window_status="#[fg=$thm_foam,bg=$thm_hl_med] #{?window_activity_flag,#[fg=$thm_rose],#[]}#I #[fg=$thm_subtle,bg=$thm_surface] #W "
+    readonly window_in_window_status_current="#[fg=$thm_base,bg=$thm_gold] #I #[fg=$thm_subtle,bg=$thm_surface] #W "
 
     local session
     readonly session=" #[fg=$thm_text] #[fg=$thm_text]#S "
@@ -193,20 +190,9 @@ main() {
     local directory_in_window_status_current
     readonly directory_in_window_status_current=" #I #[fg=$thm_iris,bg=$thm_bg] #{b:pane_current_path}"
 
-    # Left column placement: Determined by the set status-left
-
-    # Right columns organization:
+    # Right columns
     local right_column1
     local right_column2
-
-    # Window status by default shows the current directory basename
-    local window_status_format=$directory_in_window_status
-    local window_status_current_format=$directory_in_window_status_current
-
-    if [[ "$wt_enabled" == "on" ]]; then
-        window_status_format=$window_in_window_status
-        window_status_current_format=$window_in_window_status
-    fi
 
     if [[ "$show_host" == "on" ]]; then
         right_column1=$right_column1$host
@@ -231,9 +217,6 @@ main() {
     if [[ "$show_session" == "on" ]]; then
         status_left=$status_left$session
     fi
-    if [[ "$show_window" == "on" ]]; then
-        status_left=$status_left$window
-    fi
 
     set status-left "$status_left"
 
@@ -241,8 +224,21 @@ main() {
 
     # set -g status-interval 1
 
-    setw window-status-format "$window_status_format"
+    # Window status
+    local window_status_format
+    local window_status_current_format
 
+    if [[ "$wt_enabled" == "on" ]]; then
+        # show last command's name
+        window_status_format=$window_in_window_status
+        window_status_current_format=$window_in_window_status_current
+    else
+        # show working directory
+        window_status_format=$directory_in_window_status
+        window_status_current_format=$directory_in_window_status_current
+    fi
+
+    setw window-status-format "$window_status_format"
     setw window-status-current-format "$window_status_current_format"
 
     # tmux integrated modes 
