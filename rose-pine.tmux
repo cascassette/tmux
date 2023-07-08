@@ -126,24 +126,24 @@ main() {
     # Placement is handled below
 
     # NOTE: Checking for the value of @rose_pine_window_tabs_enabled
-    local window
-    window="$(get_tmux_option "@rose_pine_current_window" "")"
-    readonly window
+    local show_window
+    show_window="$(get_tmux_option "@rose_pine_current_window" "")"
+    readonly show_window
 
-    local user
-    user="$(get_tmux_option "@rose_pine_user" "")"
-    readonly user
+    local show_user
+    show_user="$(get_tmux_option "@rose_pine_user" "")"
+    readonly show_user
 
-    local host
-    host="$(get_tmux_option "@rose_pine_host" "")"
-    readonly host
+    local show_host
+    show_host="$(get_tmux_option "@rose_pine_host" "")"
+    readonly show_host
 
-    local date_time
-    date_time="$(get_tmux_option "@rose_pine_date_time" "")"
-    readonly date_time
+    local date_time_format
+    date_time_format="$(get_tmux_option "@rose_pine_date_time" "")"
+    readonly date_time_format
 
-    local directory
-    directory="$(get_tmux_option "@rose_pine_directory" "")"
+    local show_directory
+    show_directory="$(get_tmux_option "@rose_pine_directory" "")"
 
     local wt_enabled
     wt_enabled="$(get_tmux_option "@rose_pine_window_tabs_enabled" "off")"
@@ -163,69 +163,69 @@ main() {
 
     # These variables are the defaults so that the setw and set calls are easier to parse
 
-    local show_window
-    readonly show_window=" #[fg=$thm_subtle] #[fg=$thm_rose]#W$spacer"
+    local window
+    readonly window=" #[fg=$thm_subtle] #[fg=$thm_rose]#W$spacer"
 
-    local show_window_in_window_status
-    readonly show_window_in_window_status="#[fg=$thm_bg,bg=$thm_foam] #I#[fg=$thm_foam,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_bg]#W"
+    local window_in_window_status
+    readonly window_in_window_status="#[fg=$thm_bg,bg=$thm_foam] #I#[fg=$thm_foam,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_bg]#W"
 
     local show_window_in_window_status_current
     readonly show_window_in_window_status_current="#[fg=$thm_fg] #W #[fg=$thm_bg] #I#[fg=$thm_orange,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics] "
 
-    local show_session
-    readonly show_session=" #[fg=$thm_text] #[fg=$thm_text]#S "
+    local session
+    readonly session=" #[fg=$thm_text] #[fg=$thm_text]#S "
 
-    local show_user
-    readonly show_user="#[fg=$thm_iris]#(whoami)#[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]"
+    local user
+    readonly user="#[fg=$thm_iris]#(whoami)#[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]"
 
-    local show_host
-    readonly show_host=" #[fg=$thm_text]#H #[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰒋"
+    local host
+    readonly host=" #[fg=$thm_text]#H #[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰒋"
 
-    local show_date_time
-    readonly show_date_time="$field_separator#[fg=$thm_foam]$date_time#[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰃰"
+    local date_time
+    readonly date_time="#[fg=$thm_foam]$date_time_format#[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰃰"
 
-    local show_directory
-    readonly show_directory=" #[fg=$thm_subtle] #[fg=$thm_rose]#{b:pane_current_path} #{?client_prefix,$spacer#[fg=${thm_love}]$right_separator#[fg=$thm_bg] $field_separator"
+    local directory
+    readonly directory=" #[fg=$thm_subtle] #[fg=$thm_rose]#{b:pane_current_path}"
 
-    local show_directory_in_window_status
-    readonly show_directory_in_window_status="#[fg=$thm_bg] #I #[fg=$thm_fg] #{b:pane_current_path} "
+    local directory_in_window_status
+    readonly directory_in_window_status="#[fg=$thm_bg] #I #[fg=$thm_fg] #{b:pane_current_path} "
 
-    local show_directory_in_window_status_current
-    readonly show_directory_in_window_status_current=" #I #[fg=$thm_iris,bg=$thm_bg] #{b:pane_current_path}"
+    local directory_in_window_status_current
+    readonly directory_in_window_status_current=" #I #[fg=$thm_iris,bg=$thm_bg] #{b:pane_current_path}"
 
-    # Left column placement: Determined by the set status-left on line 231
+    # Left column placement: Determined by the set status-left
 
     # Right columns organization:
-
-    # Right column 1 shows, by default, the username
     local right_column1
-
-    # Right column 2 shows, by default, the current directory you're working on
-    local right_column2=$spacer$show_directory
+    local right_column2
 
     # Window status by default shows the current directory basename
-    local window_status_format=$show_directory_in_window_status
-    local window_status_current_format=$show_directory_in_window_status_current
+    local window_status_format=$directory_in_window_status
+    local window_status_current_format=$directory_in_window_status_current
 
     if [[ "$wt_enabled" == "on" ]]; then
-        window_status_format=$show_window_in_window_status
-        window_status_current_format=$show_window_in_window_status
+        window_status_format=$window_in_window_status
+        window_status_current_format=$window_in_window_status
     fi
 
-    if [[ "$host" == "on" ]]; then
-        right_column1=$right_column1$show_host
+    if [[ "$show_host" == "on" ]]; then
+        right_column1=$right_column1$host
     fi
 
-    if [[ "$date_time" != "" ]]; then
-        right_column1=$right_column1$show_date_time
+    if [[ "$date_time_format" != "" ]]; then
+        if [[ "$right_column1" != "" ]]; then
+            right_column1=$right_column1$field_separator
+        fi
+        right_column1=$right_column1$date_time
     fi
 
-    if [[ "$user" == "on" ]]; then
-        right_column1=$right_column1$show_user
+    if [[ "$show_user" == "on" ]]; then
+        right_column1=$right_column1$user
     fi
     
-    if [[ "$directory" == "on" ]]; then
-        right_column1=$right_column1$show_directory
+    if [[ "$show_directory" == "on" ]]; then
+        right_column1=$right_column1$spacer$directory
+    fi
     fi
 
     set status-left "$show_session$show_window"
