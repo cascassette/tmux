@@ -226,9 +226,16 @@ main() {
     if [[ "$show_directory" == "on" ]]; then
         right_column1=$right_column1$spacer$directory
     fi
+
+    local status_left
+    if [[ "$show_session" == "on" ]]; then
+        status_left=$status_left$session
+    fi
+    if [[ "$show_window" == "on" ]]; then
+        status_left=$status_left$window
     fi
 
-    set status-left "$show_session$show_window"
+    set status-left "$status_left"
 
     set status-right "$right_column1$right_column2"
 
