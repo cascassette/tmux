@@ -166,7 +166,7 @@ main() {
 
     local window_in_window_status
     #readonly window_in_window_status="#[fg=$thm_bg,bg=$thm_foam] #I#[fg=$thm_foam,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_bg]#W "
-    readonly window_in_window_status="#[fg=$thm_foam,bg=$thm_hl_med] #{?window_activity_flag,#[fg=$thm_rose],#[]}#I #[fg=$thm_subtle,bg=$thm_surface] #W "
+    readonly window_in_window_status="#{?window_activity_flag,#[fg=$thm_base]#[bg=$thm_rose],#[fg=$thm_foam]#[bg=$thm_hl_med]} #I #[fg=$thm_subtle,bg=$thm_surface] #W "
     readonly window_in_window_status_current="#[fg=$thm_base,bg=$thm_gold] #I #[fg=$thm_subtle,bg=$thm_surface] #W "
 
     local session
