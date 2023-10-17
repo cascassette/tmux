@@ -166,8 +166,8 @@ main() {
 
     local window_in_window_status
     #readonly window_in_window_status="#[fg=$thm_bg,bg=$thm_foam] #I#[fg=$thm_foam,bg=$thm_bg]$left_separator#[fg=$thm_fg,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_bg]#W "
-    readonly window_in_window_status="#{?window_activity_flag,#[fg=$thm_base]#[bg=$thm_rose],#[fg=$thm_foam]#[bg=$thm_hl_med]} #I #[fg=$thm_subtle,bg=$thm_surface] #W "
-    readonly window_in_window_status_current="#[fg=$thm_base,bg=$thm_gold] #I #[fg=$thm_subtle,bg=$thm_surface] #W "
+    readonly window_in_window_status="#{?window_activity_flag,#[fg=$thm_base]#[bg=$thm_rose],#[fg=$thm_foam]#[bg=$thm_hl_med]} #I #[fg=$thm_subtle,bg=$thm_surface] #W #{?window_zoomed_flag,(Z) ,}"
+    readonly window_in_window_status_current="#[fg=$thm_base,bg=$thm_gold] #I #[fg=$thm_subtle,bg=$thm_surface] #W #{?window_zoomed_flag,(Z) ,}"
 
     local session
     readonly session=" #[fg=$thm_text] #[fg=$thm_text]#S "
@@ -179,7 +179,7 @@ main() {
     readonly host=" #[fg=$thm_text]#H #[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰒋"
 
     local date_time
-    readonly date_time="#[fg=$thm_foam]$date_time_format#[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰃰"
+    readonly date_time="#[fg=$thm_subtle]$date_time_format#[fg=$thm_subtle]$right_separator#[fg=$thm_base,bg=$thm_gold] 󰃰 "
 
     local directory
     readonly directory=" #[fg=$thm_subtle] #[fg=$thm_rose]#{b:pane_current_path}"
