@@ -151,10 +151,10 @@ main() {
     readonly wt_enabled
 
     local right_separator
-    right_separator="$(get_tmux_option "@rose_pine_right_separator" "  ")"
+    right_separator="$(get_tmux_option "@rose_pine_right_separator" " ")"
 
     local left_separator
-    left_separator="$(get_tmux_option "@rose_pine_left_separator" "  ")"
+    left_separator="$(get_tmux_option "@rose_pine_left_separator" " ")"
 
     local field_separator
     field_separator="$(get_tmux_option "@rose_pine_field_separator" " | " )"
@@ -173,13 +173,13 @@ main() {
     readonly session=" #[fg=$thm_text] #[fg=$thm_text]#S "
 
     local user
-    readonly user="#[fg=$thm_iris]#(whoami)#[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]"
+    readonly user="#[fg=$thm_iris]#(whoami)#[fg=$thm_subtle]"
 
     local host
     readonly host=" #[fg=$thm_text]#H #[fg=$thm_subtle]$right_separator#[fg=$thm_subtle]󰒋"
 
     local date_time
-    readonly date_time="#[fg=$thm_subtle]$date_time_format#[fg=$thm_subtle]$right_separator#[fg=$thm_base,bg=$thm_gold] 󰃰 "
+    readonly date_time="#[fg=$thm_subtle]$date_time_format #[fg=$thm_base,bg=$thm_gold] 󰃰 "
 
     local directory
     readonly directory=" #[fg=$thm_subtle] #[fg=$thm_rose]#{b:pane_current_path}"
@@ -253,3 +253,4 @@ main() {
 }
 
 main "$@"
+
